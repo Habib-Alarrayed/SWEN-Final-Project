@@ -32,7 +32,7 @@ Consumers need to see important details such as the food description, current pr
 
 Vendors such as restaurants, cafes, and bakeries need a simple way to sell surplus food that would otherwise be wasted. They should be able to list items quickly with minimal effort and allow the system to automatically adjust prices as the expiration time approaches.
 
-This increases the chances that food will be sold instead of thrown away. Vendors also need the ability to receive payments securely after a sale is completed.
+This increases the chances that food will be sold instead of thrown away. Vendors need the ability to receive payments securely after a sale is completed as well.
 
 ---
 
