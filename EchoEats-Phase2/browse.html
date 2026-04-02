@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EchoEats Browse</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="phone-screen">
+        <div class="header-bar">
+            <div class="header-title">EchoEats</div>
+            <div class="header-user">
+                <span id="usernameDisplay"></span>
+                <div class="profile-icon">👤</div>
+            </div>
+        </div>
+
+        <div class="card add-card">
+            <h3>Add Listing</h3>
+            <input type="text" id="itemName" placeholder="Item name">
+            <input type="number" id="itemPrice" placeholder="Price">
+            <input type="text" id="itemImage" placeholder="Image URL (optional)">
+            <button class="primary-btn" onclick="addListing()">Add Listing</button>
+            <p id="addMessage"></p>
+        </div>
+
+        <div id="listings"></div>
+
+        <div class="bottom-nav">
+            <button class="nav-btn" onclick="goCart()">🛒</button>
+            <button class="nav-btn" onclick="goHome()">⌂</button>
+            <button class="nav-btn" onclick="logout()">↩</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EchoEats Checkout</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="phone-screen">
+        <div class="header-bar">
+            <div class="header-title">EchoEats</div>
+            <div class="header-user">
+                <span id="usernameDisplay"></span>
+                <div class="profile-icon">👤</div>
+            </div>
+        </div>
+
+        <div id="checkoutDetails"></div>
+
+        <div class="card">
+            <button class="checkout-btn" onclick="completeCheckout()">Check Out</button>
+            <button class="secondary-btn" onclick="cancelCheckout()">Remove From Cart</button>
+            <button class="secondary-btn" onclick="backToBrowse()">Back</button>
+        </div>
+
+        <p id="checkoutMessage"></p>
+
+        <div class="bottom-nav">
+            <button class="nav-btn" onclick="goCart()">🛒</button>
+            <button class="nav-btn" onclick="goHome()">⌂</button>
+            <button class="nav-btn" onclick="backToBrowse()">↩</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
