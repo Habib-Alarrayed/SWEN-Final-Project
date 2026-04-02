@@ -54,6 +54,13 @@ function logout() {
     window.location.href = "index.html";
 }
 
+function displayUsername() {
+    let user = localStorage.getItem("currentUser");
+    let display = document.getElementById("usernameDisplay");
+    if (!display) return;
+    display.innerText = user ? user : "Guest";
+}
+
 function goHome() {
     if (!localStorage.getItem("currentUser")) {
         window.location.href = "index.html";
@@ -64,6 +71,15 @@ function goHome() {
 
 function goBrowse() {
     window.location.href = "browse.html";
+}
+
+function goCart() {
+    let reserved = localStorage.getItem("reservedItem");
+    if (!reserved) {
+        alert("No items in cart.");
+        return;
+    }
+    window.location.href = "checkout.html";
 }
 
 function getListings() {
@@ -87,7 +103,7 @@ function createSampleListings() {
                 vendor: "Cookie's Bakery",
                 location: "Building 3001, Road 5476, Riffa",
                 expiry: "Expires in 56m",
-                image: "https://larenaissance.com.au/cdn/shop/products/MacaronBoxof7_3024x.jpg?v=1618346618"
+                image: "https://images.unsplash.com/photo-1558326567-98ae2405596b?auto=format&fit=crop&w=900&q=80"
             },
             {
                 id: 2,
@@ -97,7 +113,7 @@ function createSampleListings() {
                 vendor: "Cup o’ Jo Cafe",
                 location: "Building 2210, Avenue 12, Riffa",
                 expiry: "Expires in 1h 20m",
-                image: "https://images.unsplash.com/photo-1576618148400-f54bed99fcfd?auto=format&fit=crop&w=900&q=80"
+                image: "https://images.unsplash.com/photo-1612182062633-9ff3b3598e96?auto=format&fit=crop&w=900&q=80"
             },
             {
                 id: 3,
@@ -107,7 +123,7 @@ function createSampleListings() {
                 vendor: "Morning Bake",
                 location: "Block 101, Road 22, Isa Town",
                 expiry: "Expires in 2h",
-                image: "https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=900&q=80"
+                image: "https://images.unsplash.com/photo-1623334044303-241021148842?auto=format&fit=crop&w=900&q=80"
             }
         ];
         saveListings(listings);
@@ -120,12 +136,12 @@ function displayListings() {
 
     let listings = getListings();
 
-    // filter only available items
-    let availableItems = listings.filter(item => item.status === "available");
+    // show available and reserved, hide sold
+    let visibleItems = listings.filter(item => item.status !== "sold");
 
     container.innerHTML = "";
 
-    if (availableItems.length === 0) {
+    if (visibleItems.length === 0) {
         container.innerHTML = `
             <div class="card">
                 <h3 style="text-align:center;">No available items</h3>
@@ -135,17 +151,19 @@ function displayListings() {
         return;
     }
 
-    availableItems.forEach(item => {
+    visibleItems.forEach(item => {
         let div = document.createElement("div");
         div.className = "listing-card";
 
         div.innerHTML = `
-            <img class="food-image" src="${item.image}">
+            <img class="food-image" src="${item.image || 'https://via.placeholder.com/400x180'}" alt="${item.name}">
             <div class="listing-content">
-                <h3>${item.name}</h3>
-                <p>Status: ${item.status}</p>
-                <div class="price-pill">$${item.price}</div>
-
+                <h3 class="listing-name">${item.name}</h3>
+                <p class="vendor-name">${item.vendor || 'EchoEats Vendor'}</p>
+                <p class="info-text">${item.location || 'Location not available'}</p>
+                <p class="info-text">${item.expiry || 'Expiry not available'}</p>
+                <p class="info-text">Status: ${item.status}</p>
+                <div class="price-pill">$${Number(item.price).toFixed(2)}</div>
                 <button class="view-btn" onclick="viewItem(${item.id})">View</button>
                 <button class="secondary-btn" onclick="removeListing(${item.id})">Remove</button>
             </div>
@@ -268,17 +286,15 @@ function reserveItem() {
         return;
     }
 
-    // clear old cart first
     localStorage.removeItem("reservedItem");
 
     item.status = "reserved";
     saveListings(listings);
-
-    // save the NEW reserved item
     localStorage.setItem("reservedItem", item.id);
 
     if (detailMessage) detailMessage.innerText = "Item reserved successfully!";
     displaySelectedItem();
+    displayListings();
 }
 
 function goToCheckout() {
@@ -297,9 +313,7 @@ function goToCheckout() {
         return;
     }
 
-    // always overwrite cart with current selected item
     localStorage.setItem("reservedItem", item.id);
-
     window.location.href = "checkout.html";
 }
 
@@ -330,6 +344,7 @@ function displayCheckout() {
                 <p class="info-text">${item.expiry || 'Expiry not available'}</p>
                 <div class="price-pill">$${Number(item.price).toFixed(2)}</div>
                 <div class="total-box">Total: $${Number(item.price).toFixed(2)}</div>
+                <button class="secondary-btn" onclick="removeFromCart()">Remove From Cart</button>
             </div>
         </div>
     `;
@@ -342,7 +357,7 @@ function completeCheckout() {
     let checkoutMessage = document.getElementById("checkoutMessage");
 
     if (!item) {
-        if (checkoutMessage) checkoutMessage.innerText = "No reserved item found.";
+        if (checkoutMessage) checkoutMessage.innerText = "No item in cart.";
         return;
     }
 
@@ -352,53 +367,6 @@ function completeCheckout() {
 
     if (checkoutMessage) checkoutMessage.innerText = "Payment completed successfully!";
     displayCheckout();
-}
-
-function cancelCheckout() {
-    let reservedId = localStorage.getItem("reservedItem");
-    let listings = getListings();
-    let item = listings.find(i => i.id == reservedId);
-    let checkoutMessage = document.getElementById("checkoutMessage");
-
-    if (!item) {
-        if (checkoutMessage) checkoutMessage.innerText = "No reserved item found.";
-        return;
-    }
-
-    item.status = "available";
-    saveListings(listings);
-    localStorage.removeItem("reservedItem");
-
-    if (checkoutMessage) checkoutMessage.innerText = "Reservation cancelled.";
-    displayCheckout();
-}
-
-function backToBrowse() {
-    window.location.href = "browse.html";
-}
-
-if (window.location.pathname.includes("browse.html")) {
-    createSampleListings();
-    displayListings();
-}
-
-if (window.location.pathname.includes("details.html")) {
-    displaySelectedItem();
-}
-
-if (window.location.pathname.includes("checkout.html")) {
-    displayCheckout();
-}
-
-function goCart() {
-    let reserved = localStorage.getItem("reservedItem");
-
-    if (!reserved) {
-        alert("No items in cart.");
-        return;
-    }
-
-    window.location.href = "checkout.html";
 }
 
 function removeFromCart() {
@@ -420,17 +388,25 @@ function removeFromCart() {
     displayCheckout();
 }
 
-function displayUsername() {
-    let user = localStorage.getItem("currentUser");
+function cancelCheckout() {
+    removeFromCart();
+}
 
-    let display = document.getElementById("usernameDisplay");
-    if (!display) return;
+function backToBrowse() {
+    window.location.href = "browse.html";
+}
 
-    if (user) {
-        display.innerText = user;
-    } else {
-        display.innerText = "Guest";
-    }
+if (window.location.pathname.includes("browse.html")) {
+    createSampleListings();
+    displayListings();
+}
+
+if (window.location.pathname.includes("details.html")) {
+    displaySelectedItem();
+}
+
+if (window.location.pathname.includes("checkout.html")) {
+    displayCheckout();
 }
 
 displayUsername();
