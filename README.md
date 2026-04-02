@@ -115,8 +115,12 @@ EchoEats is a mobile-style web application that allows users to browse food list
 - Local Storage
 
 ## Team Members
-- Habib – Scrum Master (project management, GitHub, Kanban board)
-- [Add others here]
+- Habib – Scrum Master and GitHub Repository Support
+- Ali - Requirements Analysis and Requirements Document
+- Faris - Documentation and GitHub Repository Management
+- Mohammed - Quality Assurance and Test Case Preparation
+- Praharsh - Wireframe and UI Design
+- Qusai - System Design and Architecture
 
 ## How to Run
 1. Download the project
