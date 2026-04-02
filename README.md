@@ -89,3 +89,35 @@ The system shall meet the following quality requirements:
 # Project Goal
 
 The goal of EchoEats is to reduce food waste while providing affordable food options for consumers and helping vendors recover value from surplus food.
+
+---
+
+# EchoEats – Phase 2
+
+## Description
+EchoEats is a mobile-style web application that allows users to browse food listings, reserve items, and complete purchases.
+
+## Features
+- User registration and login
+- Browse available food listings
+- Add new listings with images
+- Remove listings
+- View item details
+- Reserve items
+- Checkout system
+- Remove items from cart
+- Dynamic item status (available → reserved → sold)
+
+## Technologies Used
+- HTML
+- CSS
+- JavaScript
+- Local Storage
+
+## Team Members
+- Habib – Scrum Master (project management, GitHub, Kanban board)
+- [Add others here]
+
+## How to Run
+1. Download the project
+2. Open index.html in a browser
