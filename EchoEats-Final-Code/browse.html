@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EchoEats Browse</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+<div class="phone-screen">
+
+<div class="header-bar">
+<div class="header-title">EchoEats</div>
+<div class="header-user">
+<span id="usernameDisplay"></span>
+<div class="profile-icon">👤</div>
+</div>
+</div>
+
+<div class="card add-card">
+<h3>Add Listing</h3>
+
+<input id="itemName" placeholder="Item name">
+<input type="number" id="itemPrice" placeholder="Base price" min="1">
+<input type="number" id="minPrice" placeholder="Minimum price" min="1">
+
+<select id="itemLocation">
+<option>Manama</option>
+<option>Riffa</option>
+<option>Muharraq</option>
+<option>Isa Town</option>
+<option>Hamad Town</option>
+<option>Seef</option>
+<option>Saar</option>
+<option>Budaiya</option>
+<option>Sitra</option>
+</select>
+
+<input type="number" id="expiryMinutes" placeholder="Expiry (minutes)" min="1">
+<input id="itemImage" placeholder="Image URL (optional)">
+
+<button class="primary-btn" onclick="addListing()">Add Listing</button>
+<p id="addMessage"></p>
+</div>
+
+<div class="card">
+<h3>Find Nearby Deals</h3>
+<select id="locationFilter" onchange="displayListings()">
+<option value="All">All Locations</option>
+<option>Manama</option>
+<option>Riffa</option>
+<option>Muharraq</option>
+<option>Isa Town</option>
+<option>Hamad Town</option>
+<option>Seef</option>
+<option>Saar</option>
+<option>Budaiya</option>
+<option>Sitra</option>
+</select>
+</div>
+
+<div id="notificationBox"></div>
+<div id="impactBox"></div>
+<div id="listings"></div>
+
+<div class="bottom-nav">
+<button class="nav-btn" onclick="goCart()">🛒</button>
+<button class="nav-btn" onclick="goHome()">⌂</button>
+<button class="nav-btn" onclick="logout()">↩</button>
+</div>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
